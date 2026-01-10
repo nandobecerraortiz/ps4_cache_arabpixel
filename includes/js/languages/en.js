@@ -35,5 +35,17 @@ window.lang = {
     "fanTitle": "Fan Threshold",
     "fanDescription": "Sets the temperature threshold where the fan will kick into turbo",
     "selectTemp":   "Select a temperature",
-    "default":  "Default" // Fan default string
+    "default":  "Default", // Fan default string
+    "goldhenFirmwareSemiSupported": "* Loading payloads through GoldHEN's BinLoader is supported on all firmware.",
+    "southbridgeHeader":    "Southbridge and Model",
+    "southbridgeHelp":  "Need help?",
+    "southbridgeHelp1": "Load GoldHEN and go to Settings -> System -> System information and check Southbridge.",
+    "southbridgeHelp2": "Selecting wrong options may cause a kernel panic!",
+    "selectSouthbridge":    "Select your Southbridge and PS4 Model",
+    // payloads.js
+    "linuxOnlyWithGoldHEN": "Linux payloads should only be loaded through GoldHEN's BinLoader!",
+    "busyBinLoader":    "Cannot Load Payload Because The BinLoader Server Is Busy",
+    "binLoaderNotDetected": "GoldHEN's BinLoader is not detected, is it enabled?!", // For no-webkit firmware
+    "disabledBinloader":    "GoldHEN's Binloader is not running, load payload using the exploit instead?",
+    "unsupportedFirmware":  "Unsupported firmware ",
 }
