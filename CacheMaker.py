@@ -1,12 +1,16 @@
 ################# By Nazky  ##############
+# This script is kept here for documentation purposes.
+# The manifest files are now firmware-based and can be found in the firmware_manifests/ directory.
+# The old PSFree.manifest has been removed.
+
 import os
 from datetime import datetime
 
 # Configuration
-EXCLUDED_DIRS = {'.venv', '.git', 'noneed', '.github'}
+EXCLUDED_DIRS = {'.venv', '.git', 'noneed', '.github', 'node_modules'}
 EXCLUDED_EXTENSIONS = {
     '.bat', '.txt', '.exe', '.mp4', '.py', '.bak', '.zip',
-    '.mp3', '.sh', '.h', '.c', '.o', '.ld', '.md', '.d'
+    '.mp3', '.sh', '.h', '.c', '.o', '.ld', '.md', '.d', '.json'
 }
 EXCLUDED_FILES = {'.gitignore', 'COPYING', 'LICENSE', 'MAKEFILE', 'dockerfile', '.gitinclude', '.prettierrc', '.keepgithub'}
 OUTPUT_FILE = 'PSFree.manifest'

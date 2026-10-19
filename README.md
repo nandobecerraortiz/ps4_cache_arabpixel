@@ -1,59 +1,199 @@
-# PSFree version 1.5.1
+<div align="center">
 
-PSFree is a collection of exploits for the PS4 console. The main focus of the repo is for the PS4, but we try to make things portable to PS5.
+# WebKitty
+
+<img src="includes/assets/icons/webkitty.svg" width="220" alt="WebKitty Logo">
+
+**A modular collection of WebKit-based exploit chains for the PlayStation 4.**
+
+*(Formerly known as PSFree Enhanced)*
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/ArabPixel/WebKitty)](https://github.com/ArabPixel/WebKitty/issues)
+[![GitHub stars](https://img.shields.io/github/stars/ArabPixel/WebKitty)](https://github.com/ArabPixel/WebKitty/stargazers)
+
+[Features](#features) • [Firmware Compatibility](#supported-by-this-repository) • [Deployment](#deployment--hosting) • [Screenshots](#screenshots) • [Contributing](#contribution) • [Credits](#credits)
+
+</div>
+
+---
 
 ## Features
 
-- **Auto-detection:** Automatically detects console type and firmware version (via `src/config.mjs`).
-- **WebKit Exploit (PSFree):** Entry point via the console's web browser.
-- **Kernel Exploit (Lapse):** Escalates privileges to kernel level.
-- **Payload Loader:** After successful kernel exploitation listens for a payload on port 9020.
+### Core Exploit & Execution
+- **Auto-detection:** Automatically detects console type and firmware version.
+- **WebKit Exploits:** Entry point via the console's web browser using **PSFree**, **Bad Hoist**, **CSSFontFace** or **slopkit**.
+- **Kernel Exploits:** Escalates privileges to kernel level using **Lapse**, **Netctrl**, **Relapse**, or **Sleirsgoevy's 6.7x**.
+- **Payload Loader:** After successful kernel exploitation, payloads or listens for incoming payloads on port `9020`.
+- **Barebone Jailbreak Experience option:** Executes the exploit in a minimal DOM footprint and automatically redirects back to the main page upon completion.
+- **Firmware-Based Caching:** Caches *only* what your specific firmware version requires instead of caching everything offline.
 
-## Vulnerability Scope
+### Interface & Customization
+- **Themes & Layouts:** Customizable layout modes with independent theme options.
+- **HEN Flavor Selector:** Toggle between **HEN** and **GoldHEN**, with integrated GoldHEN version selection.
+- **Descriptive Payload Selection:** Clear descriptions and unsupported payload loading protection.
+- **Multilingual Support:** Dynamic language switcher.
 
-|               | PSFree    | Lapse      |
-| :------------ | :-------- | :--------- |
-| PlayStation 4 | 6.00-9.60 | 1.01-12.02 |
-| PlayStation 5 | 1.00-5.50 | 1.00-10.01 |
+### Advanced Local & Network Features
+Offers expanded functionality when hosted locally on a PC or PS4 using **[PS4-Websrv](https://github.com/ArabPixel/ps4-websrv)**:
+- **Network Scanner:** Ability to scan the local network to find the PS4.
+- **Remote Payload Delivery:** Send the available or custom payloads from any smart device directly to the PS4.
+
+---
 
 ## Supported by this Repository
 
-This table indicates firmware versions for which the _current version_ of this repository provides a functional and tested exploit chain.
+This table indicates firmware versions for which the *current version* of this repository provides a functional and tested exploit chain.
 
-|               | PSFree    | Lapse     |
-| :------------ | :-------- | :-------- |
-| PlayStation 4 | 7.00-9.60 | 7.00-9.60 |
-| PlayStation 5 | N/A       | N/A       |
+| Userland | Kernel | Firmware |
+| :--- | :---: | :--- |
+| **Have A Bad Time & <br> Stack Unitialized Read** | Bpf Double Free | 4.50 - 5.07 |
+| **Bad Hoist** | sleirsgoevy's kexploit | 6.70 - 6.72 |
+| **PSFree** | Lapse | 7.00 - 9.60 |
+| **CSSFontFace** | Lapse | 7.00 - 11.02 |
+| **CSSFontFace** | Netctrl | 9.00 - 11.02 |
+| **Slopkit**     | Lapse  |  11.00 - 12.02 |
+| **Slopkit**     | Netctrl  |  12.50 - 13.00 |
+| **Slopkit**     | Relapse  |  13.02 - 13.52 |
+| **Payload Loader** | - | 5.05 - latest |
 
-_Note: Support for other firmwares listed in the "Vulnerability Scope" table may, or may not, be actively being worked on or may have been supported in previous versions of this repository. Please check `CHANGELOG.md` for historical support._
+---
+
+## Deployment & Hosting
+
+### Option 1: Deploy this backup with GitHub Pages
+This repository is a backup copy of WebKitty. The original work and all rights belong to **ArabPixel**.
+
+Enable GitHub Pages for the repository from **Settings > Pages**, select the branch and root folder containing `index.html`, and open the URL GitHub Pages assigns to the repository. No custom domain is required.
+
+### Option 2: Local Hosting (PC / PS4 Server)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ArabPixel/WebKitty.git
+   ```
+2. Serve the directory using any standard Web server (e.g., Nginx, Apache, Python HTTP server, or **[PS4-Websrv](https://github.com/ArabPixel/ps4-websrv)**).
+3. Open the browser on your PS4, that's it!
+
+---
 
 ## TODO List
+- [ ] Support lower firmwares by adding other exploits
 
-- [X] ~~Blackscreen/Save issue with certain games~~ Issue is patched post-exploit
-  - [ ] Determine root cause and fix more directly
-- [ ] `lapse.mjs`: Just set the bits for JIT privs
-- [ ] `view.mjs`: Assumes PS4, support PS5 as well
-- [ ] Add PS5 support
+---
 
-## Additional features
+## Screenshots
 
-- Language switcher
-- HEN flavor selector
-- GoldHEN version selector
-- Descriptive payload selection
-- Unsuported payload loading protection
-- Load payloads with GoldHEN's BinLoader through a mirrored [http host](http://psfree-enhanced.free.nf/)
-- Up to date
+<details>
+<summary><b>📸 Click here to view Screenshots & Previews</b></summary>
+<br>
+
+<table align="center" style="border: none;">
+  <tr>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/default-layout-1.png" width="350" alt="Default Layout: Initial Screen">
+      <br>
+      <b>Default Layout: Initial Screen</b>
+    </td>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/default-layout-2.png" width="350" alt="Default Layout: Exploit Screen">
+      <br>
+      <b>Default Layout: Exploit Screen</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/compact-layout.png" width="350" alt="Compact Layout (Combined)">
+      <br>
+      <b>Compact Layout (Combined)</b>
+    </td>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/compact-layout-vibrant.png" width="350" alt="Compact Layout (Combined, Vibrant)">
+      <br>
+      <b>Compact Layout (Vibrant)</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/settings-vibrant.png" width="350" alt="Settings">
+      <br>
+      <b>Settings</b>
+    </td>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/about-vibrant.png" width="350" alt="About">
+      <br>
+      <b>About</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/customization-vibrant.png" width="350" alt="Customization">
+      <br>
+      <b>Customization</b>
+    </td>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/about-catppuccino.png" width="350" alt="About Catppuccino">
+      <br>
+      <b>About Catppuccino</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/catppuccino-layout-1.png" width="350" alt="Catppuccino">
+      <br>
+      <b>Catppuccino: Initial Screen</b>
+    </td>
+    <td align="center" style="border: none;">
+      <img src="includes/assets/showcase/catppuccino-layout-2.png" width="350" alt="Catppuccino">
+      <br>
+      <b>Catppuccino: Exploit Screen</b>
+    </td>
+  </tr>
+</table>
+
+</details>
+
+---
 
 ## Contribution
-You can :
-- look at the [languages folder](https://github.com/ArabPixel/PSFree-Enhanced/tree/main/includes/js/languages) and PR your language!
--  improve the host by modefying, updating or adding new features!
-## Copyright and Authors:
 
-AGPL-3.0-or-later (see [LICENSE](LICENSE)). This repo belongs to the group `anonymous`. We refer to anonymous contributors as "anonymous" as well.
+You can contribute to WebKitty by:
+- Creating pull requests for new translations in the [`languages` folder](includes/js/languages).
+- Modifying, updating, or implementing new host features.
+- Reporting bugs or suggesting enhancements via [issues](https://github.com/ArabPixel/WebKitty/issues/new).
+- In case your PR has edits inside `jailbreak.js` file, do not forget to generate `jailbreak-legacy.js` by typing
+```
+npm install # in case you didn't install them already.
+npm run build
+```
 
-## Credits:
+> **Important:** If your PR includes a new file, don't forget to add it to the respective firmware-based manifest files!
 
-- anonymous for PS4 firmware kernel dumps
-- Check the appropriate files for any **extra** contributors. Unless otherwise stated, everything here can also be credited to us.
+---
+
+## Copyright and Authors
+
+AGPL-3.0-or-later (see [LICENSE](LICENSE)). Part of this repo belongs to the group `anonymous`. We refer to anonymous contributors as "anonymous" as well.
+
+---
+
+## Credits in alphabetical order
+- **abc:** For PSFree userland and Lapse kernel exploits.
+- **Al-Azif:** For the modular (multi-file) PSFree Lapse and AIO workaround implementations.
+- **anonymous:** For PS4 firmware kernel dumps.
+- **Dr.Yenyen:** For intensive multi-firmware testing.
+- **Egycnq:** Porting Netctrl to slopkit.
+- **Feyzee61:** For the PSFree lapse bundle (single file) and 6.7x exploit implementations.
+- **Fire30:** For Bad Hoist userland exploit.
+- **Flatz:** Duh
+- **GattoDev:** For the WebKitty logo.
+- **Jordy and Sonic-Iso:** Original Slopkit project.
+- **Nathan Fargo and ufm42:** For CSSFontFace userland exploit.
+- **Payload developers:** For their payloads.
+- **Nazky:** For being the first host I took a peek at.
+- **qwertyoruiopz:** for BPF Double Free
+- **Raw Game:** For implementing a PS4 port for the Slopkit Lapse and Netctrl and also SlopKit Relapse.
+- **sleirsgoevy:** For 6.7x kernel exploit. 
+- **TheFlow:** For Netctrl kernel exploit.
+- **ufm42:** For CSSFontFace Netctrl and Lapse implementation.
+
+Check the appropriate files for any **extra** contributors. Unless otherwise stated, everything here can also be credited to us.
