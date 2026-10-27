@@ -13,32 +13,15 @@ async function jailbreak() {
 
   // Skip if payload was chosen, useful when a payload was chosen from deliverPayload.js
   var payloadPath = storage.session.getString('payload_path', null);
-  if (!payloadPath || payloadPath === "null" || payloadPath === "undefined") {
+  if (!payloadPath || payloadPath == null) {
     // Choose HEN
     chooseHEN();
   }
 
   cleanUp();
-  
+
   payloadPath = storage.session.getString('payload_path', null);
   log("Loading: " + payloadPath);
-
-  // Check if .elf is selected or nexHEN
-  if (payloadPath && (payloadPath.indexOf('.elf') !== -1 || payloadPath.indexOf("nexHEN-ps4") !== -1)) {
-    if (payloadPath.indexOf("nexHEN-ps4") !== -1) {
-      // elfldr expects .elf payloads
-      payloadPath = payloadPath.replace('.bin', '.elf');
-    }
-    
-    try {
-      let success = await sendToElfldr(payloadPath, log);
-      if (success) {
-        return; // Stop on success
-      }
-    } catch (error) {}
-
-    await sleep(500);
-  }
 
   // barebone exploit preferred? go to exploit file
   if (user.bareboneJB) {
@@ -99,37 +82,58 @@ async function badHoistJailbreak() {
     log("An error occured during Bad Hoist Entrypoint\nReload and try again.", "orange");
     storage.session.remove('jailbreakNow');
     return;
-  }
-  else
+  } else {
     log("Bad Hoist Entrypoint succeeded");
+  }
+
   if (window.exploitsetup672_result < 1) {
-    log("An error occured during Exploit Setup\nPlease refresh page and try again...", "red");
+    log("An error occured during Exploit Setup\nPlease refresh page and run again...", "red");
     storage.session.remove('jailbreakNow');
     return;
-  }
-  else
+  } else {
     log("Exploit Setup complete\n");
+  }
+
   log("Starting Kernel Exploit...");
   await sleep(200); // Wait 200ms
 
   await loadScript('./src/badhoist/672kexploit.js', false, devMode);
   var result = KernelExploit672();
+
   var payloadPath = storage.session.getString('payload_path', '');
+  let isElfPayload = isPayloadElf(payloadPath);
+  let elfLoaderAvailable = await probeElfLoader();
 
-  if (result === 0 || result === 91) {
-    log("\nKernel exploit succeeded", "green");
-    // Inject HEN payload
-    log("Injecting payload: " + payloadPath);
-    getPayload672(payloadPath);
+  let injectionPath = payloadPath;
+  if (isElfPayload) {
+    if (elfLoaderAvailable) {
+      log("elfldr is already running. Skipping elfldr.bin boot.", "green");
+    } else {
+      log("elfldr not running. Booting elfldr.bin first...", "yellow");
+      injectionPath = './includes/payloads/Bins/elfldr.bin';
+    }
+  }
 
-    log("\nBad Hoist by Fire30, 6.7x Kernel Exploit by Sleirsgoevy");
-    log("Implementation taken from Feyzee61");
-    jailbreakSuccess();
-  } else if (result === 179) {
-    log("\nAlready jailbroken, skipping..", "green");
-    log("Injecting payload: " + payloadPath);
-    getPayload672(payloadPath);
-    log("Payload injected successfully", "green");
+  if (result === 0 || result === 91 || result === 179) {
+    if (result === 179) {
+      log("\nAlready jailbroken, skipping..", "green");
+    } else {
+      log("\nKernel exploit succeeded", "green");
+    }
+
+    // Inject either the binary payload or elfldr.bin
+    log("Injecting payload: " + injectionPath);
+    getPayload672(injectionPath);
+
+    if (isElfPayload) {
+      if (elfLoaderAvailable) {
+        log("Sending the ELF payload: " + payloadPath, "green");
+        Loadpayloadlocal(payloadPath, getPayloadName(payloadPath), "jailbreak");
+      } else {
+        log("Error: Failed to connect to elfldr on port 9021.", "red");
+      }
+    }
+
     log("\nBad Hoist by Fire30, 6.7x Kernel Exploit by Sleirsgoevy");
     log("Implementation taken from Feyzee61");
     jailbreakSuccess();
@@ -141,7 +145,7 @@ async function badHoistJailbreak() {
 
 async function cssFontFaceJailbreak() {
   log("Loading ufm42's CSSFontFace exploit chain implementation..");
-  await getScript('./src/cssfontface/main.js', false, devMode);
+  await getScript('src/cssfontface/main.js', false, devMode);
   doCssFontFaceJailbreak();
 }
 
@@ -149,31 +153,31 @@ async function slopKit() {
   log("Loading Raw-Game's SlopKit exploit chain implementation..");
   try {
     if (user.exploitChain === EXPLOIT_CHAINS.SLOPKIT_NETCTRL) {
-      await getScript("./src/slopkit/chain_poops.js", true, devMode);
+      await getScript("src/slopkit/chain_poops.js", true, devMode);
     } else {
-      await getScript("./src/slopkit/chain_lapse.js", true, devMode);
+      await getScript("src/slopkit/chain_lapse.js", true, devMode);
     }
   } catch (error) {
-    log(error);
+    log(error, "red");
   }
 }
 
 async function relapseJailbreak() {
   log("Loading Raw Game's Relapse exploit chain implementation..");
   try {
-    await getScript("./src/relapse/jb.js?v=10", true, devMode);
+    await getScript("src/relapse/jb.js?v=10", true, devMode);
   } catch (error) {
-    log(error);
+    log(error, "red");
   }
 }
 
 async function bpfDoubleFree() {
   log("Loading bpf double free exploit chain implementation..");
   try {
-    await getScript("./src/bpf-double-free/main.js", false, devMode);
+    await getScript("src/bpf-double-free/main.js", false, devMode);
     loadBpfDoubleFree();
   } catch (error) {
-    log(error);
+    log(error, "red");
   }
 }
 
@@ -228,7 +232,7 @@ function cleanUp() {
   }
 
   // if RTL language, keep text from left to right
-  if (isRtl()){
+  if (isRtl()) {
     document.getElementById('DebugConsole').style.textAlign = 'end';
   }
 

@@ -59,14 +59,13 @@ function log(message, color, consoleEl) {
     var span = document.createElement('span');
     // break text into a new line to keep it visible
     span.style.whiteSpace = "pre-wrap";
-    span.style.fontSize = "14px";
     span.textContent = message + '\n';
     if (color) span.style.color = color;
     consoleEl.appendChild(span);
 }
 
-function getReloadAfterJb() {
-    return storage.getBoolean('reloadAfterJb', true);
+function getReloadAfterJbValue() {
+    return storage.getBoolean('reloadAfterJb', false);
 }
 
 /**
@@ -97,15 +96,17 @@ function updateJbStats(attempt, isSuccess) {
 
 // Called by exploit implementations after a successful jailbreak.
 function jailbreakSuccess(statusMessage) {
+    var isBinLoader = storage.session.getBoolean('binloader', false);
     if (storage.session.getBoolean('jailbreakNow', true)) {
         storage.session.remove('jailbreakNow');
     }
     storage.session.remove('autoJbRetry');
     storage.session.remove('payload_path');
+    storage.session.remove('binloader');
 
     updateJbStats(0, 1);
 
-    if (getReloadAfterJb()) {
+    if (getReloadAfterJbValue() && !isBinLoader) {
         setTimeout(function () { window.location.href = mainPage; }, 5000);
     }
 
@@ -141,111 +142,4 @@ function toggleVisibility(id, show) {
     } else {
         el.classList.add('hidden');
     }
-}
-
-
-/**
- * HTTP payload sender to the Elf Loader using GET (ES5 Compatible)
- * 
- * @param {string} payload_path path to the payload. e.g. ./includes/payloads/HEN/nexHEN-ps4.elf
- * @param {function} log - The logging function to use
- * @param {number} retryForMs - How long to retry connection failures while the receiver starts
- */
-function sendToElfldr(payload_path, log, retryForMs) {
-    if (payload_path.indexOf("nexHEN-ps4.bin") !== -1) payload_path = payload_path.replace('.bin', '.elf');
-    var payloadLink = document.createElement('a');
-    payloadLink.href = payload_path;
-    var targetUrl = "http://127.0.0.1:9021/?uri=" + payloadLink.href;
-    var retryWindow = Math.max(0, Number(retryForMs) || 0);
-    var deadline = Date.now() + retryWindow;
-    var lang = window.lang || {};
-
-    function message(key, fallback) {
-        return lang[key] || fallback;
-    }
-
-    log(message("elfLoaderSending", "Sending payload to the Elf Loader..."));
-    return new Promise(function (resolve) {
-        function attempt() {
-            var request;
-            var finished = false;
-            var requestTimeout = retryWindow
-                ? Math.max(1, Math.min(1500, deadline - Date.now()))
-                : 5000;
-
-            function finish(success) {
-                if (finished) return;
-                finished = true;
-                resolve(success);
-            }
-
-            function retryOrFail() {
-                if (finished) return;
-                finished = true;
-                if (Date.now() < deadline) {
-                    setTimeout(function () {
-                        if (Date.now() < deadline) {
-                            attempt();
-                        } else {
-                            log(message("elfLoaderNetworkError", "Error: Network request failed"), 'orange');
-                            resolve(false);
-                        }
-                    }, Math.min(250, deadline - Date.now()));
-                } else {
-                    log(message("elfLoaderNetworkError", "Error: Network request failed"), 'orange');
-                    resolve(false);
-                }
-            }
-
-            try {
-                request = new XMLHttpRequest();
-                request.timeout = requestTimeout;
-                request.onload = function () {
-                    if (finished) return;
-                    var responseText = request.responseText || '';
-                    // HTTP 200 means the receiver accepted the request.
-                    if (request.status !== 200 || responseText.indexOf("Error") !== -1) {
-                        log(message("elfLoaderError", "The Elf Loader returned an error: {status} {body}")
-                            .replace("{status}", request.status)
-                            .replace("{body}", responseText), 'orange');
-                        finish(false);
-                        return;
-                    }
-                    log(message("elfLoaderResponse", "Payload sent successfully through the Elf Loader!\nStatus: {status} {statusText}\nResponse: {body}")
-                        .replace("{status}", request.status)
-                        .replace("{statusText}", request.statusText)
-                        .replace("{body}", responseText), 'green');
-                    finish(true);
-                };
-                request.onerror = retryOrFail;
-                request.ontimeout = retryOrFail;
-                request.onabort = function () {
-                    if (finished) return;
-                    log(message("elfLoaderRequestAborted", "Error: Network request aborted"), 'orange');
-                    finish(false);
-                };
-                request.open('GET', targetUrl, true);
-                request.send();
-            } catch (error) {
-                log(message("elfLoaderError", "The Elf Loader returned an error: {status} {body}")
-                    .replace("{status}", request ? request.status || 0 : 0)
-                    .replace("{body}", error.message || error), 'orange');
-                finish(false);
-            }
-        }
-
-        attempt();
-    });
-}
-
-function sendNexHENAfterElfLoader(payload_path, log) {
-    if (!/(?:^|\/)elfldr\.bin(?:[?#]|$)/i.test(payload_path || "")) {
-        return Promise.resolve(null);
-    }
-
-    return new Promise(function (resolve) {
-        setTimeout(resolve, 3000);
-    }).then(function () {
-        return sendToElfldr("./includes/payloads/HEN/nexHEN-ps4.elf", log, 5000);
-    });
 }

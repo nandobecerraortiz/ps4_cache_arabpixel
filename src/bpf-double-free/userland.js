@@ -570,6 +570,29 @@ function userland() {
   };
 
   window.runPayload = function (path) {
+    var isElfldrBin = path.indexOf("elfldr.bin") !== -1;
+    var isElf = !isElfldrBin && (isPayloadElf(path) || path.indexOf("nexHEN") !== -1);
+    var oldPath = path;
+
+    if (isElf) {
+      log("Detected ELF/nexHEN payload, checking if elfldr is active...");
+      probeElfLoader().then(function (elfLoaderAvailable) {
+        if (elfLoaderAvailable) {
+          log("elfldr is already listening, loading payload...", "green");
+          Loadpayloadlocal(oldPath, getPayloadName(oldPath));
+        } else {
+          log("elfldr not running, booting elfldr.bin first...", "yellow");
+          // Boot elfldr.bin standalone via runPayload, then send target payload
+          window.runPayload('./includes/payloads/Bins/elfldr.bin');
+          setTimeout(function () {
+            log("Sending target payload to port 9021...");
+            Loadpayloadlocal(oldPath, getPayloadName(oldPath));
+          }, 3000);
+        }
+      });
+      return;
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', path);
     xhr.responseType = 'arraybuffer';
@@ -603,10 +626,14 @@ function userland() {
       */
     };
     xhr.onerror = function () {
+      log("Error Retreiving Payload! " + xhr.status + " " + xhr.statusText, "red");
       throw new Error('Issue Retreiving Payload! #1');
     };
     // TODO: sleep(1000);
     xhr.send();
+    xhr.onload = function () {
+      log("Payload payload loaded successfully!", "green");
+    }
     // TODO: sleep(3000);
   };
 
@@ -628,8 +655,8 @@ function userland() {
   } else if (kernel_dump) {
     // This should have run in kernExploit()
     allset();
-  } else if (bin_loader) {
-    storage.session.remove("binloader");
+  } else if (bin_loader || payload_location == undefined) {
+    storage.session.set("binloader", 1);
     binLoader();
   } else if (embedded_payload) {
     runPayload(payload_location);

@@ -62,9 +62,9 @@ This table indicates firmware versions for which the *current version* of this r
 ## Deployment & Hosting
 
 ### Option 1: Deploy this backup with GitHub Pages
-This repository is a backup copy of WebKitty. The original work and all rights belong to **ArabPixel**.
+This repository is a backup copy of WebKitty. The original work and all rights belong to ArabPixel.
 
-Enable GitHub Pages for the repository from **Settings > Pages**, select the branch and root folder containing `index.html`, and open the URL GitHub Pages assigns to the repository. No custom domain is required.
+Enable GitHub Pages for the repository from Settings > Pages, select the branch and root folder containing `index.html`, and open the URL GitHub Pages assigns to the repository. No custom domain is required.
 
 ### Option 2: Local Hosting (PC / PS4 Server)
 1. Clone the repository:

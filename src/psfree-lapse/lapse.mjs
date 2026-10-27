@@ -1993,43 +1993,38 @@ kexploit().then((success) => {
 
 async function kexSuccess() {
   if (sessionStorage.getItem('binloader')) {
-    sessionStorage.removeItem('binloader');
+    doneSuccessfully();
     runBinLoader();
   } else {
     let payload_path = sessionStorage.getItem("payload_path");
-    if (payload_path.indexOf("nexHEN-ps4.bin") !== -1) payload_path = payload_path.replace('.bin', '.elf');
+    if (isPayloadElf(payload_path)) payload_path = payload_path.replace('.bin', '.elf');
     log("Payload path: " + payload_path);
 
-    if (payload_path && payload_path.indexOf(".elf") !== -1 && payload_path.indexOf("linux") == -1) {
-      // [!] Checking for if elfldr is loaded takes much time so we might as well just load both each time.
-      const elfLoaderPayload = payloadsList.find(item => item.id === "ElfLoader");
-      const elfldrPath = elfLoaderPayload ? elfLoaderPayload.src : null;
-
-      if (!elfldrPath) {
-        log("ElfLoader payload is unavailable", "red");
-        return;
+    if (payload_path && isPayloadElf(payload_path) && payload_path.indexOf("linux") == -1) {
+      // check if elfldr is listening
+      var elfLoaderAvailable = await probeElfLoader();
+      
+      if (!elfLoaderAvailable) {
+        log("elfldr is not running, starting elfldr...", "yellow");
+        runPayload('./includes/payloads/Bins/elfldr.bin', true);
+        
+        await new Promise(function(resolve) { setTimeout(resolve, 2000); });
       }
-      runPayload(elfldrPath.replace('.elf', '.bin'), true);
-      await sleep(3000); // Wait 3000ms for elfldr to start
 
       // Sending to elfldr
-      if (!await sendToElfldr(payload_path, window.log, 8000)) {
-        log("ELF payload was not loaded", "red");
-        return;
-      }
+      Loadpayloadlocal(payload_path, getPayloadName(payload_path));
       doneSuccessfully();
     } else {
       // Inject HEN payload
       runPayload(sessionStorage.getItem('payload_path'));
-
-      window.log("Homebrew Enabler loaded", "green");
-      window.log("\nPSFree & Lapse exploit with AIO fixes by ABC");
     }
+    window.log("Payload loaded", "green");
+    window.log("\nPSFree & Lapse exploit with AIO fixes by ABC");
   }
 }
 
-function doneSuccessfully(){
+function doneSuccessfully(optionalCustomMessage) {
   if (typeof jailbreakSuccess == "function"){
-    jailbreakSuccess();
+    jailbreakSuccess(optionalCustomMessage);
   }
 }

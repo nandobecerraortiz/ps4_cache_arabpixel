@@ -16,14 +16,15 @@
     <meta property="og:title" content="WebKitty">
     <meta property="og:description"
         content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 13.52.">
-    <meta property="og:image" content="./includes/assets/icons/webkitty.svg">
+    <meta property="og:image" content="http://webkitty.arabpixel.net/includes/assets/icons/webkitty.svg">
+    <meta property="og:url" content="http://webkitty.arabpixel.net">
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="WebKitty">
     <meta name="twitter:description"
         content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 13.52.">
-    <meta name="twitter:image" content="./includes/assets/icons/webkitty.svg">
+    <meta name="twitter:image" content="http://webkitty.arabpixel.net/includes/assets/icons/webkitty.svg">
     <link rel="icon" href="./includes/assets/icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" id="main-stylesheet" href="">
     <link rel="stylesheet" id="color-stylesheet" href="">
@@ -42,6 +43,20 @@
             document.dir = "rtl";
         else
             document.dir = "ltr";
+
+        // redirect to http request
+        var goToHttps = localStorage.getItem("dontHTTPS") != "1";
+        var isThisPS4 = navigator.userAgent.indexOf("PlayStation 4") !== -1;
+        var isLocalServer =  /^(127\.|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/.test(window.location.hostname);
+        var isCurrentHTTPS = window.location.protocol === 'https:';
+        if (isThisPS4 && goToHttps && !isLocalServer && isCurrentHTTPS){
+            if (confirm("You are currently using HTTPS, which prevents loading payloads through a bin/elf loader servers, switch to http instead? (recommended)")){
+                window.abortLoading = true;
+                window.location.href = "http://webkitty.arabpixel.net";
+            } else{
+                localStorage.setItem("dontHTTPS", "1");
+            }
+        }
     </script>
 </head>
 
@@ -115,6 +130,13 @@
 
             <!-- Compatibility message -->
             <p id="PS4FW" class="text-white/70 text-lg mt-4 mb-6">-</p>
+            <a class="hidden secondHostBtn bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold disabled:opacity-50 transition-colors text-white text-center"
+                href="http://webkitty.arabpixel.net/" style="text-decoration: none;">
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold disabled:opacity-50 transition-colors text-white text-center">Load
+                    payloads using a PayLoader - External link</button>
+            </a>
+
             <!-- Jailbreak flavor options -->
             <div id="choosejb-initial" class="bg-gray-800 p-6 rounded-lg shadow-xl text-center">
                 <h3 class="text-xl font-semibold mb-4">Choose your HEN flavor</h3>
@@ -384,12 +406,16 @@
                             </div>
                         </div>
                     </div>
+                    <a hidden
+                        class="secondHostBtn w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold disabled:opacity-50 transition-colors text-white text-center"
+                        href="http://webkitty.arabpixel.net/" style="text-decoration: none;">
+                        <button
+                            class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold disabled:opacity-50 transition-colors text-white text-center">Load
+                            payloads using a payload loader - External link</button>
+                    </a>
                 </div>
             </div>
         </section>
-        <p class="px-4 py-3 text-center text-sm text-white/70">
-            Copia de seguridad. La obra original y todos los derechos pertenecen a ArabPixel.
-        </p>
     </main>
 
 
