@@ -29,6 +29,10 @@ function _jailbreak() {
           // Make it retry until success
           storage.session.set('autoJbRetry', true);
 
+          // turn off auto-jailbreak for this session, so it doesn't loop forever
+          // autoJbRetry will pickup on userland fail and reload
+          storage.session.set('autoJb', false);
+
           // Skip if payload was chosen, useful when a payload was chosen from deliverPayload.js
           payloadPath = storage.session.getString('payload_path', null);
           if (!payloadPath || payloadPath == null) {
@@ -169,45 +173,58 @@ function _badHoistJailbreak() {
           result = KernelExploit672();
           payloadPath = storage.session.getString('payload_path', '');
           isElfPayload = isPayloadElf(payloadPath);
+          elfLoaderAvailable = null;
+          injectionPath = payloadPath;
+          if (!isElfPayload) {
+            _context3.n = 9;
+            break;
+          }
           _context3.n = 8;
           return probeElfLoader();
         case 8:
           elfLoaderAvailable = _context3.v;
-          injectionPath = payloadPath;
-          if (isElfPayload) {
-            if (elfLoaderAvailable) {
-              log("elfldr is already running. Skipping elfldr.bin boot.", "green");
-            } else {
-              log("elfldr not running. Booting elfldr.bin first...", "yellow");
-              injectionPath = './includes/payloads/Bins/elfldr.bin';
-            }
-          }
-          if (result === 0 || result === 91 || result === 179) {
-            if (result === 179) {
-              log("\nAlready jailbroken, skipping..", "green");
-            } else {
-              log("\nKernel exploit succeeded", "green");
-            }
-
-            // Inject either the binary payload or elfldr.bin
-            log("Injecting payload: " + injectionPath);
-            getPayload672(injectionPath);
-            if (isElfPayload) {
-              if (elfLoaderAvailable) {
-                log("Sending the ELF payload: " + payloadPath, "green");
-                Loadpayloadlocal(payloadPath, getPayloadName(payloadPath), "jailbreak");
-              } else {
-                log("Error: Failed to connect to elfldr on port 9021.", "red");
-              }
-            }
-            log("\nBad Hoist by Fire30, 6.7x Kernel Exploit by Sleirsgoevy");
-            log("Implementation taken from Feyzee61");
-            jailbreakSuccess();
+          log("Waiting 600ms");
+          sleep(600);
+          if (elfLoaderAvailable) {
+            log("elfldr is already running. Skipping elfldr.bin boot.", "green");
           } else {
-            log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
-            storage.session.remove('jailbreakNow');
+            log("elfldr not running. Booting elfldr.bin first...", "yellow");
+            injectionPath = './includes/payloads/Bins/elfldr.bin';
           }
         case 9:
+          if (!(result === 0 || result === 91 || result === 179)) {
+            _context3.n = 11;
+            break;
+          }
+          if (result === 179) {
+            log("\nAlready jailbroken, skipping..", "green");
+          } else {
+            log("\nKernel exploit succeeded", "green");
+          }
+
+          // Inject either the binary payload or elfldr.bin
+          log("Injecting payload: " + injectionPath);
+          getPayload672(injectionPath);
+          _context3.n = 10;
+          return sleep(1000);
+        case 10:
+          if (isElfPayload) {
+            if (elfLoaderAvailable) {
+              log("Sending the ELF payload: " + payloadPath, "green");
+              Loadpayloadlocal(payloadPath, getPayloadName(payloadPath), "jailbreak");
+            } else {
+              log("Error: Failed to connect to elfldr on port 9021.", "red");
+            }
+          }
+          log("\nBad Hoist by Fire30, 6.7x Kernel Exploit by Sleirsgoevy");
+          log("Implementation taken from Feyzee61");
+          jailbreakSuccess();
+          _context3.n = 12;
+          break;
+        case 11:
+          log("\nAn error occured during Kernel Exploit\nPlease restart console and try again...", "red");
+          storage.session.remove('jailbreakNow');
+        case 12:
           return _context3.a(2);
       }
     }, _callee3);
@@ -298,21 +315,20 @@ function _relapseJailbreak() {
   }));
   return _relapseJailbreak.apply(this, arguments);
 }
-function bpfDoubleFree() {
-  return _bpfDoubleFree.apply(this, arguments);
-} // Apply language after loading the language file
-function _bpfDoubleFree() {
-  _bpfDoubleFree = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+function slopkitAfterglow() {
+  return _slopkitAfterglow.apply(this, arguments);
+}
+function _slopkitAfterglow() {
+  _slopkitAfterglow = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
     var _t5;
     return _regenerator().w(function (_context7) {
       while (1) switch (_context7.p = _context7.n) {
         case 0:
-          log("Loading bpf double free exploit chain implementation..");
+          log("Loading SlopKit Afterglow exploit chain implementation..");
           _context7.p = 1;
           _context7.n = 2;
-          return getScript("src/bpf-double-free/main.js", false, devMode);
+          return getScript("src/slopkit-afterglow/jb.js", true, devMode);
         case 2:
-          loadBpfDoubleFree();
           _context7.n = 4;
           break;
         case 3:
@@ -324,33 +340,61 @@ function _bpfDoubleFree() {
       }
     }, _callee7, null, [[1, 3]]);
   }));
+  return _slopkitAfterglow.apply(this, arguments);
+}
+function bpfDoubleFree() {
+  return _bpfDoubleFree.apply(this, arguments);
+} // Apply language after loading the language file
+function _bpfDoubleFree() {
+  _bpfDoubleFree = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+    var _t6;
+    return _regenerator().w(function (_context8) {
+      while (1) switch (_context8.p = _context8.n) {
+        case 0:
+          log("Loading bpf double free exploit chain implementation..");
+          _context8.p = 1;
+          _context8.n = 2;
+          return getScript("src/bpf-double-free/main.js", false, devMode);
+        case 2:
+          loadBpfDoubleFree();
+          _context8.n = 4;
+          break;
+        case 3:
+          _context8.p = 3;
+          _t6 = _context8.v;
+          log(_t6, "red");
+        case 4:
+          return _context8.a(2);
+      }
+    }, _callee8, null, [[1, 3]]);
+  }));
   return _bpfDoubleFree.apply(this, arguments);
 }
 function initLanguage() {
   return _initLanguage.apply(this, arguments);
 } // Load settings
 function _initLanguage() {
-  _initLanguage = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
-    var _t6;
-    return _regenerator().w(function (_context8) {
-      while (1) switch (_context8.p = _context8.n) {
+  _initLanguage = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
+    var _t7;
+    return _regenerator().w(function (_context9) {
+      while (1) switch (_context9.p = _context9.n) {
         case 0:
-          _context8.p = 0;
-          _context8.n = 1;
+          _context9.p = 0;
+          _context9.n = 1;
           return loadLanguage();
         case 1:
           applyLanguage(user.currentLanguage);
           updateJbStats(false, false);
-          _context8.n = 3;
+          _context9.n = 3;
           break;
         case 2:
-          _context8.p = 2;
-          _t6 = _context8.v;
-          console.error(_t6);
+          _context9.p = 2;
+          _t7 = _context9.v;
+          console.error(_t7);
         case 3:
-          return _context8.a(2);
+          return _context9.a(2);
       }
-    }, _callee8, null, [[0, 2]]);
+    }, _callee9, null, [[0, 2]]);
   }));
   return _initLanguage.apply(this, arguments);
 }
@@ -358,15 +402,15 @@ function loadSettings() {
   return _loadSettings.apply(this, arguments);
 }
 function _loadSettings() {
-  _loadSettings = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
-    var _t7;
-    return _regenerator().w(function (_context9) {
-      while (1) switch (_context9.p = _context9.n) {
+  _loadSettings = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0() {
+    var _t8;
+    return _regenerator().w(function (_context0) {
+      while (1) switch (_context0.p = _context0.n) {
         case 0:
-          _context9.p = 0;
+          _context0.p = 0;
           CheckFW();
           loadJbFlavor();
-          _context9.n = 1;
+          _context0.n = 1;
           return initLanguage();
         case 1:
           loadTheme();
@@ -379,16 +423,16 @@ function _loadSettings() {
           autoJailbreak();
           updateBareboneJB();
           loadExploitChain();
-          _context9.n = 3;
+          _context0.n = 3;
           break;
         case 2:
-          _context9.p = 2;
-          _t7 = _context9.v;
-          alert("Error in loadSettings: " + _t7.message);
+          _context0.p = 2;
+          _t8 = _context0.v;
+          alert("Error in loadSettings: " + _t8.message);
         case 3:
-          return _context9.a(2);
+          return _context0.a(2);
       }
-    }, _callee9, null, [[0, 2]]);
+    }, _callee0, null, [[0, 2]]);
   }));
   return _loadSettings.apply(this, arguments);
 }
@@ -396,18 +440,18 @@ function ipGuess() {
   return _ipGuess.apply(this, arguments);
 }
 function _ipGuess() {
-  _ipGuess = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0() {
-    return _regenerator().w(function (_context0) {
-      while (1) switch (_context0.n) {
+  _ipGuess = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee1() {
+    return _regenerator().w(function (_context1) {
+      while (1) switch (_context1.n) {
         case 0:
-          _context0.n = 1;
+          _context1.n = 1;
           return getScript("./includes/js/goldhenScanner.js", false, devMode);
         case 1:
           guessIp();
         case 2:
-          return _context0.a(2);
+          return _context1.a(2);
       }
-    }, _callee0);
+    }, _callee1);
   }));
   return _ipGuess.apply(this, arguments);
 }
@@ -425,7 +469,7 @@ function cleanUp() {
 
   // if RTL language, keep text from left to right
   if (isRtl()) {
-    document.getElementById('DebugConsole').style.textAlign = 'end';
+    ui.debugConsoleElement.style.textAlign = 'end';
   }
 
   // Ensure the exploit status console is displayed
@@ -450,4 +494,5 @@ EXPLOIT_HANDLERS[EXPLOIT_CHAINS.CSSFONTFACE_LAPSE] = cssFontFaceJailbreak;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_LAPSE] = slopKit;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_NETCTRL] = slopKit;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.RELAPSE] = relapseJailbreak;
+EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW] = slopkitAfterglow;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.BPF_DOUBLE_FREE] = bpfDoubleFree;

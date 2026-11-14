@@ -78,7 +78,7 @@ function applyLanguage(lang) {
     function updateText(element, key) {
         var translation = strings[key];
         if (element && translation) {
-            element.textContent = translation;
+            element.innerHTML = translation;
         }
     }
 
@@ -166,6 +166,7 @@ function applyLanguage(lang) {
         updateText(ui.settingsPopup.querySelector('#scanPayLoader'), 'scanPayloadLoader');
         updateText(ui.settingsPopup.querySelector('#shutdownServerBtn'), 'shutdownServerBtn');
         updateText(ui.settingsPopup.querySelector('#reloadAfterJbText'), 'reloadAfterJbText');
+        updateText(document.getElementById('autoJbText'), 'autoJbOption');
     }
 
     if (ui.themePopup) {
@@ -191,6 +192,7 @@ function applyLanguage(lang) {
     if (ui.secondHostBtn && ui.secondHostBtn[0]) updateText(ui.secondHostBtn[0], 'secondHostBtn');
     if (ui.secondHostBtn && ui.secondHostBtn[1]) updateText(ui.secondHostBtn[1], 'secondHostBtn');
     updateTitle(ui.exploitRunBtn, 'clickToStart');
+    updateText(ui.stopAutoJbBtn, 'stopAutoJbBtn');
 
     updateTitle(ui.aboutBtns[0], 'aboutMenu');
     updateTitle(ui.aboutBtns[1], 'aboutMenu');

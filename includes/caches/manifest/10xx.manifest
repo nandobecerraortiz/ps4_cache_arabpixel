@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # v2.4
-# Generated on 2026-10-22
+# Generated on 2026-11-14
 
 CACHE:
 ../../../
@@ -24,6 +24,7 @@ CACHE:
 ../../../includes/js/utilities.js
 ../../../includes/js/languages/ar.js
 ../../../includes/js/languages/en.js
+../../../includes/js/languages/de.js
 ../../../includes/js/languages/tr.js
 ../../../includes/js/languages/zh-cn.js
 ../../../includes/js/languages/fa.js
@@ -48,7 +49,7 @@ CACHE:
 ../../../includes/payloads/Bins/db-rebuilder-v0.2.bin
 ../../../includes/payloads/Bins/ps4-rif-renamer.bin
 ../../../includes/payloads/Bins/ps4-websrv.bin
-../../../includes/payloads/Bins/ps4debug-ng_v1.3.2.bin
+../../../includes/payloads/Bins/ps4debug-ng_v1.3.4.bin
 ../../../includes/payloads/Bins/elfldr.bin
 ../../../includes/payloads/Bins/elfldr.elf
 ../../../includes/payloads/Bins/ps4-kernel-dumper.bin
@@ -58,8 +59,8 @@ CACHE:
 ../../../includes/payloads/Bins/fan-thresholds/ps4-fan-threshold80.bin
 ../../../includes/payloads/Bins/fan-thresholds/ps4-fan-threshold85.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.12.bin
-../../../includes/payloads/HEN/goldhen_v2.4b18.6.bin
-../../../includes/payloads/HEN/goldhen_v2.4b18.7.bin
+../../../includes/payloads/HEN/goldhen_v2.4b18.13.bin
+../../../includes/payloads/HEN/goldhen_v2.4b18.14.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.8.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.9.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.10.bin
@@ -93,8 +94,14 @@ CACHE:
 ../../../src/cssfontface/ps4/constants.js
 ../../../src/cssfontface/ps4/kernel.js
 ../../../src/cssfontface/ps4/userland.js
-../../../src/cssfontface/ps4/patches/1000.bin
-../../../src/cssfontface/ps4/patches/1050.bin
-
+../../../src/kpatches/1000.bin
+../../../src/kpatches/1050.bin
+../../../src/slopkit/core.js
+../../../src/slopkit/core.js?v=10
+../../../src/slopkit/int64.js
+../../../src/slopkit/mem.js
+../../../src/slopkit/ps4_offsets.js
+../../../src/slopkit/rpc_worker.js
+../../../src/slopkit/chain_lapse.js
 NETWORK:
 *

@@ -74,9 +74,15 @@ function getReloadAfterJbValue() {
  * @param {boolean} isSuccess - true when the jailbreak succeeds.
  * Passing both false refreshes the UI display without changing stored counts.
  */
-function updateJbStats(attempt, isSuccess) {
+function updateJbStats(attempt, isSuccess, revert) {
     var total = storage.getNumber('jbTotal', 0);
     var success = storage.getNumber('jbSuccess', 0);
+
+    if (revert) {
+        total--;
+        storage.set('jbTotal', total);
+        return;
+    }
 
     if (attempt) {
         total++;
@@ -89,8 +95,9 @@ function updateJbStats(attempt, isSuccess) {
 
     if (typeof ui !== 'undefined' && ui.successRateText && window.lang) {
         var rate = total > 0 ? ((success / total) * 100).toFixed(0) : '0';
+        var displayRate = total > 0 ? rate + '%' : '-';
         ui.successRateText.textContent =
-            (window.lang.successRate || 'Success Rate: ') + rate + '% (' + success + '/' + total + ')';
+            (window.lang.successRate || 'Success Rate: ') + displayRate + ' (' + success + '/' + total + ')';
     }
 }
 
@@ -123,6 +130,9 @@ function jailbreakSuccess(statusMessage) {
 }
 
 function isLocalIP(ip) {
+    if (ip === 'localhost' || ip === '::1' || ip === '::ffff:127.0.0.1') {
+        return true;
+    }
     return /^(127\.|192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/.test(ip);
 }
 

@@ -26,6 +26,7 @@ function CheckFW() {
             var dotIndex = fwVersion.indexOf('.');
             var major = dotIndex !== -1 ? fwVersion.substring(0, dotIndex) : fwVersion;
             if (user.ps4Fw >= 4.50 && user.ps4Fw <= 5.07) major = '450-507';
+            if (user.ps4Fw == 14.00 || user.ps4Fw == 14.02) major = '140x';
             var el = document.getElementById('fw' + major);
             if (el) el.classList.add('fwSelected');
 
@@ -99,7 +100,7 @@ function CheckFW() {
             });
             elementsToHide.push(
                 'initial-screen', 'henSelection', 'autoJbContainer', 'successRate',
-                'bareboneJBOption', 'chooseExploitChain', 'layouts', 'layout', 'theme'
+                'bareboneJBOption', 'chooseExploitChain', 'layouts', 'layout', 'theme', 'autoJbOption'
             );
 
             if (user.platform === 'Android' || user.platform === 'iOS') {
@@ -181,4 +182,5 @@ function updateExploitChainVisibility(fwVersion) {
     toggleVisibility('slopKitNetCtrlExp',     isChainSupported(EXPLOIT_CHAINS.SLOPKIT_NETCTRL, fwNum));
     toggleVisibility('relapseExp',            isChainSupported(EXPLOIT_CHAINS.RELAPSE, fwNum));
     toggleVisibility('bpfDoubleFreeExp',      isChainSupported(EXPLOIT_CHAINS.BPF_DOUBLE_FREE, fwNum));
+    toggleVisibility('slopkitAfterglowExp',    isChainSupported(EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW, fwNum));
 }

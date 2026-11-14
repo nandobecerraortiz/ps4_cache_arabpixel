@@ -116,10 +116,13 @@ ui.ps4FwSelect.addEventListener('change', function () {
     if (typeof CheckFW === 'function') CheckFW();
 });
 
-// Auto-jailbreak stop button
+// Auto-jailbreak/Auto-jailbreak retry stop button
 ui.stopAutoJbBtn.addEventListener('click', function () {
     clearInterval(autoJbInterval);
+
     storage.session.set('autoJbRetry', false);
+    storage.session.set('autoJb', false);
+
     toggleVisibility(ui.stopAutoJbBtn.id);
     var currentTheme = storage.getString('theme', 'index');
     if (currentTheme === 'compact') {
@@ -129,9 +132,8 @@ ui.stopAutoJbBtn.addEventListener('click', function () {
     }
 });
 
-document.getElementById('DebugConsole').addEventListener('click', function () {
-    ui.consoleElement.innerText = '';
-    log("Debug console cleared.");
+ui.debugConsoleElement.addEventListener('click', function () {
+    ui.consoleElement.innerHTML = '<center>' + (window.lang && window.lang.waitingUserInput) || 'Waiting for user action...' + '</center>';
 });
 
 // Update-cache button
@@ -160,7 +162,7 @@ function chooseFanThreshold() {
 function setAdvancedPayloads(inputState) {
     user.advancedPayloads = inputState;
     storage.set('advancedPayloads', inputState);
-    if (inputState === true || inputState === 'true') {
+    if (inputState) {
         toggleVisibility(ui.advancedPayloadsContainer.id, 1);
         var advancedList = [];
         if (typeof payloadsList !== 'undefined') {
@@ -206,7 +208,7 @@ function clearStats() {
     if (!confirm(window.lang.clearStatsConfirm)) return;
     storage.remove('jbTotal');
     storage.remove('jbSuccess');
-    ui.successRateText.textContent = (window.lang.successRate || 'Success Rate: ') + '0% (0/0)';
+    updateJbStats(0, 0)
 }
 
 // To be only used when this project is served on a PS4-Websrv payload on a PS4.

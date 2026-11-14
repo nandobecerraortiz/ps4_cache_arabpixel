@@ -55,7 +55,7 @@ function terse(s) {
 }
 
 const SHOW_LOG = true; // params.get("log") === "1";
-if (SHOW_LOG && document.body) document.body.className = "log";
+if (SHOW_LOG && document.body) document.body.classList.add("log");
 async function finishUI(ok) {
   const result = ok
       ? "DONE"
@@ -216,7 +216,7 @@ let allDone = false,
             return;
 
         const KPATCH_FILE =
-            "./src/relapse/patches/" + (off.kpatch || fwKey.replace(".", "") + ".bin");
+            "./src/kpatches/" + (off.kpatch || fwKey.replace(".", "") + ".bin");
         const needPatch = ["k_sysent_661", "k_jmp_rsi"].filter(
             (k) => off[k] === undefined,
         );

@@ -3,7 +3,7 @@ var lastScrollY = 0;
 var lastSection = "initial";           // For custom snap scroll on the PS4
 var projectName = "WebKitty";
 var hideUnsupportedPayloads = false;
-var commonMax = 14.00;                 // max supported paylaods
+var commonMax = 14.02;                 // max supported paylaods
 
 var user = {
   currentLanguage: storage.getString('language', 'en'),
@@ -38,6 +38,7 @@ var ui = {
 
   // Exploit screen elements
   consoleElement: document.getElementById('console'),
+  debugConsoleElement: document.getElementById('DebugConsole'),
   exploitState: document.getElementById('state'),
   toolsSection: document.getElementById('tools'),
   toolsTab: document.getElementById('tools-tab'),
@@ -47,7 +48,7 @@ var ui = {
   linuxTab: document.getElementById('linux-tab'),
   advancedPayloadsSection: document.getElementById('advanced'),
   advancedPayloadsTab: document.getElementById('advanced-tab'),
-  advancedPayloadsContainer: document.querySelector('.advancedPayloadsTab'),
+  advancedPayloadsContainer: document.getElementById('advancedPayloadsTab'),
   advancedPayloadsInput: document.getElementById('advancedPayloadsInput'),
   customPayloadsSection: document.getElementById('custom'),
   customPayloadsTab: document.getElementById('custom-tab'),
@@ -74,6 +75,7 @@ var ui = {
   scanPayLoader: document.getElementById('scanPayLoader'),
   shutdownServerBtn: document.getElementById('shutdownServerBtn'),
   autoJbRetry: document.getElementById('autoJbRetry'),
+  autoJb: document.getElementById('autoJb'),
   bareboneJbBtn: document.getElementById('bareboneJB'),
   bareboneJBInput: document.getElementById('bareboneJBInput'),
   exploitChainTitle: document.getElementById('exploitChainTitle'),

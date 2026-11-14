@@ -11,6 +11,10 @@ async function jailbreak() {
   // Make it retry until success
   storage.session.set('autoJbRetry', true);
 
+  // turn off auto-jailbreak for this session, so it doesn't loop forever
+  // autoJbRetry will pickup on userland fail and reload
+  storage.session.set('autoJb', false);
+
   // Skip if payload was chosen, useful when a payload was chosen from deliverPayload.js
   var payloadPath = storage.session.getString('payload_path', null);
   if (!payloadPath || payloadPath == null) {
@@ -102,10 +106,13 @@ async function badHoistJailbreak() {
 
   var payloadPath = storage.session.getString('payload_path', '');
   let isElfPayload = isPayloadElf(payloadPath);
-  let elfLoaderAvailable = await probeElfLoader();
+  let elfLoaderAvailable = null;
 
   let injectionPath = payloadPath;
   if (isElfPayload) {
+    elfLoaderAvailable = await probeElfLoader();
+    log("Waiting 600ms");
+    sleep(600);
     if (elfLoaderAvailable) {
       log("elfldr is already running. Skipping elfldr.bin boot.", "green");
     } else {
@@ -124,6 +131,7 @@ async function badHoistJailbreak() {
     // Inject either the binary payload or elfldr.bin
     log("Injecting payload: " + injectionPath);
     getPayload672(injectionPath);
+    await sleep(1000);
 
     if (isElfPayload) {
       if (elfLoaderAvailable) {
@@ -166,6 +174,15 @@ async function relapseJailbreak() {
   log("Loading Raw Game's Relapse exploit chain implementation..");
   try {
     await getScript("src/relapse/jb.js?v=10", true, devMode);
+  } catch (error) {
+    log(error, "red");
+  }
+}
+
+async function slopkitAfterglow() {
+  log("Loading SlopKit Afterglow exploit chain implementation..");
+  try {
+    await getScript("src/slopkit-afterglow/jb.js", true, devMode);
   } catch (error) {
     log(error, "red");
   }
@@ -233,7 +250,7 @@ function cleanUp() {
 
   // if RTL language, keep text from left to right
   if (isRtl()) {
-    document.getElementById('DebugConsole').style.textAlign = 'end';
+    ui.debugConsoleElement.style.textAlign = 'end';
   }
 
   // Ensure the exploit status console is displayed
@@ -258,4 +275,5 @@ EXPLOIT_HANDLERS[EXPLOIT_CHAINS.CSSFONTFACE_LAPSE] = cssFontFaceJailbreak;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_LAPSE] = slopKit;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_NETCTRL] = slopKit;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.RELAPSE] = relapseJailbreak;
+EXPLOIT_HANDLERS[EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW] = slopkitAfterglow;
 EXPLOIT_HANDLERS[EXPLOIT_CHAINS.BPF_DOUBLE_FREE] = bpfDoubleFree;

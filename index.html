@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title>WebKitty</title>
-    <meta name="description" content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 13.52." />
+    <meta name="description" content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 14.02." />
     <meta name="author" content="ArabPixel">
     <meta name="keywords"
         content="PS4, PlayStation 4, webkit exploit, jailbreak, psfree lapse, cssfontface, WebKitty, PSFree Enhanced, cssfontface, lapse, netctrl, slopkit, relapse">
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="WebKitty">
     <meta property="og:description"
-        content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 13.52.">
+        content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 14.02.">
     <meta property="og:image" content="http://webkitty.arabpixel.net/includes/assets/icons/webkitty.svg">
     <meta property="og:url" content="http://webkitty.arabpixel.net">
 
@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="WebKitty">
     <meta name="twitter:description"
-        content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 13.52.">
+        content="WebKitty is a user-friendly, feature-rich PS4 exploit host for 4.50-5.07 & 6.70 - 14.02.">
     <meta name="twitter:image" content="http://webkitty.arabpixel.net/includes/assets/icons/webkitty.svg">
     <link rel="icon" href="./includes/assets/icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" id="main-stylesheet" href="">
@@ -155,7 +155,7 @@
                         <span class="text-lg font-semibold text-white/90 select-none">PS4HEN</span>
                     </label>
                     <label id="nexHEN-label-initial"
-                        class="flex items-center px-4 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-700 transition-colors cursor-pointer shadow border-2 border-transparent focus-within:border-blue-500 w-full sm:w-auto">
+                        class="hidden flex items-center px-4 py-2 rounded-lg bg-gray-700/60 hover:bg-gray-700 transition-colors cursor-pointer shadow border-2 border-transparent focus-within:border-blue-500 w-full sm:w-auto">
                         <input type="radio" name="hen" value="nexHEN" onchange="saveJbFlavor(this.name, this.value)"
                             class="accent-blue-500 w-5 h-5 ml-3 focus:ring-2 focus:ring-blue-400">
                         <span class="text-lg font-semibold text-white/90 select-none">nexHEN<br>Experimental</span>
@@ -206,7 +206,7 @@
                             <span class="text-base font-semibold text-white/90 select-none">PS4HEN</span>
                         </label>
                         <label id="nexHEN-label-exploit"
-                            class="flex items-center px-2 py-1 rounded bg-gray-700/60 hover:bg-gray-700 cursor-pointer shadow border-2 border-transparent focus-within:border-blue-500">
+                            class="hidden flex items-center px-2 py-1 rounded bg-gray-700/60 hover:bg-gray-700 cursor-pointer shadow border-2 border-transparent focus-within:border-blue-500">
                             <input type="radio" name="hen2" value="nexHEN" class="accent-blue-500 w-4 h-4 ml-2"
                                 onchange="saveJbFlavor(this.name, this.value)">
                             <span class="text-base font-semibold text-white/90 select-none">nexHEN</span>
@@ -334,6 +334,7 @@
                                 <option value="13.50">13.50</option>
                                 <option value="13.52">13.52</option>
                                 <option value="14.00">14.00</option>
+                                <option value="14.02">14.02</option>
                             </select>
                         </div>
                     </div>
@@ -356,7 +357,7 @@
                                     id="linux-tab" data-tabs-target="#linux" type="button" role="tab"
                                     aria-controls="linux" aria-selected="false">Linux</button>
                             </li>
-                            <li class="hidden flex-1 advancedPayloadsTab" role="presentation">
+                            <li id="advancedPayloadsTab" class="hidden flex-1" role="presentation">
                                 <button
                                     class="w-full inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 hover:text-gray-300"
                                     id="advanced-tab" data-tabs-target="#advanced" type="button" role="tab"
@@ -441,6 +442,7 @@
                     <p id="fw11">11.xx</p>
                     <p id="fw12">12.xx</p>
                     <p id="fw13">13.xx</p>
+                    <p id="fw140x">14.0x</p>
                 </div>
             </div>
             <small id="payloaderFirmwareSemiSupported">
@@ -465,6 +467,7 @@
                 <p>Sonic-Iso</p>
                 <p>Feyzee61</p>
                 <p>Raw Game</p>
+                <p>m0zz</p>
             </div>
             <div class="flex flex-wrap justify-around text-sm text-white/70 mt-2">
                 <p>ArabPixel</p>
@@ -490,12 +493,22 @@
                 <h3 class="text-lg font-semibold mb-2" id="ghVer">GoldHEN Versions</h3>
                 <div class="radio-group space-y-2">
                     <label class="flex items-center text-white/80">
-                        <input type="radio" name="goldhen" value="GHv2.4b18.12" onchange="setGoldHENVer(this.value);">
-                        <p>GoldHEN v2.4b18.12 - </p>
+                        <input type="radio" name="goldhen" value="GHv2.4b18.14" onchange="setGoldHENVer(this.value);">
+                        <p>GoldHEN v2.4b18.14 - </p>
                         <pre id="latestVer"> Latest</pre>
                     </label>
                     <details>
                         <summary>Other versions</summary>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.13"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.13</p>
+                        </label>
+                        <label class="flex items-center text-white/80">
+                            <input type="radio" name="goldhen" value="GHv2.4b18.12"
+                                onchange="setGoldHENVer(this.value);">
+                            <p>GoldHEN v2.4b18.12</p>
+                        </label>
                         <label class="flex items-center text-white/80">
                             <input type="radio" name="goldhen" value="GHv2.4b18.10"
                                 onchange="setGoldHENVer(this.value);">
@@ -510,16 +523,6 @@
                             <input type="radio" name="goldhen" value="GHv2.4b18.8"
                                 onchange="setGoldHENVer(this.value);">
                             <p>GoldHEN v2.4b18.8</p>
-                        </label>
-                        <label class="flex items-center text-white/80">
-                            <input type="radio" name="goldhen" value="GHv2.4b18.7"
-                                onchange="setGoldHENVer(this.value);">
-                            <p>GoldHEN v2.4b18.7</p>
-                        </label>
-                        <label class="flex items-center text-white/80">
-                            <input type="radio" name="goldhen" value="GHv2.4b18.6"
-                                onchange="setGoldHENVer(this.value);">
-                            <p>GoldHEN v2.4b18.6</p>
                         </label>
                     </details>
                 </div>
@@ -563,6 +566,10 @@
                         <input type="radio" name="exploitChain" value="8" onchange="exploitChain(this.value);">
                         <p id="bpfDoubleFree">Bpf Double Free</p>
                     </label>
+                    <label class="flex items-center text-white/80" id="slopkitAfterglowExp">
+                        <input type="radio" name="exploitChain" value="9" onchange="exploitChain(this.value);">
+                        <p id="slopkitAfterglow">Slopkit Afterglow</p>
+                    </label>
                 </div>
             </div>
             <div id="advancedPayloads" class="mb-6">
@@ -573,6 +580,10 @@
                         <p id="showAdvancedPayloads">Show Advanced Payloads</p>
                     </label>
                 </div>
+                <label id="autoJbOption" class="flex items-center text-white/80">
+                    <input type="checkbox" id="autoJb" onclick="setAutoJb(this.checked)">
+                    <p id="autoJbText">Auto Jailbreak</p>
+                </label>
                 <label id="autoJbContainer" class="flex items-center text-white/80">
                     <input type="checkbox" id="autoJbRetry" onclick="setAutoJbRetry(this.checked)">
                     <p id="autoJbRetryText">Auto-Retry Jailbreak</p>
@@ -640,6 +651,11 @@
                         <input type="radio" name="language" value="tr" class="ml-2"
                             onchange="saveLanguage(this.value);">
                         <p>T&uuml;rk&ccedil;e</p>
+                    </label>
+                    <label class="flex items-center text-white/80">
+                        <input type="radio" name="language" value="de" class="ml-2"
+                            onchange="saveLanguage(this.value);">
+                        <p>Deutsch</p>
                     </label>
                     <label class="flex items-center text-white/80">
                         <input type="radio" name="language" value="zh-cn" class="ml-2"

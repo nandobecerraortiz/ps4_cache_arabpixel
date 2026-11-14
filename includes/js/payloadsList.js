@@ -30,7 +30,7 @@ var payloadsList = [
     name: "Elf Loader",
     author: "John T&#246;rnblom",
     description: "Launches the Elf Loader server on port 9021 to receive ELF payloads.",
-    specificFW: "4.71 - latest",
+    specificFW: "4.71 - 14.00",
     category: "tools",
     src: payloadsPath + "elfldr.elf"
   },
@@ -232,7 +232,7 @@ var payloadsList = [
     description: "Next-Gen version of ps4debug for PlayStation 4",
     specificFW: "5.05 - latest",
     category: "advanced",
-    src: payloadsPath + "ps4debug-ng_v1.3.2.bin"
+    src: payloadsPath + "ps4debug-ng_v1.3.4.bin"
   },
   {
     id: "PUPDecrypt",
@@ -335,7 +335,7 @@ var payloadsList = [
     description: "A File Manager for the PlayStation 4 console.<br>You need an internet connection to use this payload.",
     specificFW: "4.73 - latest",
     category: "homebrew",
-    src: homebrewPath + "PS4-Xplorer-208.bin",
+    src: homebrewPath + "PS4-Xplorer-209.bin",
     needsPayloadLoader: true
   }
 ];

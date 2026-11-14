@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # v2.6
-# Generated on 2026-10-22
+# Generated on 2026-11-14
 
 CACHE:
 ../../../
@@ -24,6 +24,7 @@ CACHE:
 ../../../includes/js/utilities.js
 ../../../includes/js/languages/ar.js
 ../../../includes/js/languages/en.js
+../../../includes/js/languages/de.js
 ../../../includes/js/languages/tr.js
 ../../../includes/js/languages/zh-cn.js
 ../../../includes/js/languages/fa.js
@@ -50,7 +51,7 @@ CACHE:
 ../../../includes/payloads/Bins/db-rebuilder-v0.2.bin
 ../../../includes/payloads/Bins/ps4-rif-renamer.bin
 ../../../includes/payloads/Bins/ps4-websrv.bin
-../../../includes/payloads/Bins/ps4debug-ng_v1.3.2.bin
+../../../includes/payloads/Bins/ps4debug-ng_v1.3.4.bin
 ../../../includes/payloads/Bins/elfldr.bin
 ../../../includes/payloads/Bins/elfldr.elf
 ../../../includes/payloads/Bins/ps4-kernel-dumper.bin
@@ -60,8 +61,8 @@ CACHE:
 ../../../includes/payloads/Bins/fan-thresholds/ps4-fan-threshold80.bin
 ../../../includes/payloads/Bins/fan-thresholds/ps4-fan-threshold85.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.12.bin
-../../../includes/payloads/HEN/goldhen_v2.4b18.6.bin
-../../../includes/payloads/HEN/goldhen_v2.4b18.7.bin
+../../../includes/payloads/HEN/goldhen_v2.4b18.13.bin
+../../../includes/payloads/HEN/goldhen_v2.4b18.14.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.8.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.9.bin
 ../../../includes/payloads/HEN/goldhen_v2.4b18.10.bin
@@ -93,9 +94,9 @@ CACHE:
 ../../../src/psfree-lapse/lapse.mjs
 ../../../src/psfree-lapse/fonts/FONTS.LICENSE
 ../../../src/psfree-lapse/fonts/LiberationMono-Regular.ttf
-../../../src/psfree-lapse/kpatch/900.bin
-../../../src/psfree-lapse/kpatch/903.bin
-../../../src/psfree-lapse/kpatch/950.bin
+../../../src/kpatches/psfree-lapse/900.bin
+../../../src/kpatches/psfree-lapse/903.bin
+../../../src/kpatches/psfree-lapse/950.bin
 ../../../src/psfree-lapse/lapse/ps4/700.mjs
 ../../../src/psfree-lapse/lapse/ps4/750.mjs
 ../../../src/psfree-lapse/lapse/ps4/751.mjs
@@ -129,9 +130,9 @@ CACHE:
 ../../../src/cssfontface/ps4/constants.js
 ../../../src/cssfontface/ps4/kernel.js
 ../../../src/cssfontface/ps4/userland.js
-../../../src/cssfontface/ps4/patches/900.bin
-../../../src/cssfontface/ps4/patches/903.bin
-../../../src/cssfontface/ps4/patches/950.bin
+../../../src/kpatches/900.bin
+../../../src/kpatches/903.bin
+../../../src/kpatches/950.bin
 
 NETWORK:
 *
