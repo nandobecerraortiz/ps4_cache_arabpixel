@@ -18,7 +18,7 @@ function CheckFW() {
 
         var fwNum = parseFloat(fwVersion);
         var supported = isFirmwareSupported(fwNum);
-        updateHenFlavorVisibility(fwVersion); // GoldHEN is now supported.
+        updateHenFlavorVisibility(fwVersion);
         if (supported) {
             ui.ps4FwStatus.style.color = 'green';
 
@@ -173,6 +173,11 @@ function updateExploitChainVisibility(fwVersion) {
         if (typeof loadExploitChain === 'function') loadExploitChain();
     }
 
+    // display exploit chain
+    if (ui.exploitChainLabel){
+        ui.exploitChainLabel.textContent = getChainLabel(user.exploitChain);
+    }
+
     toggleVisibility('modularLapseExp',       isChainSupported(EXPLOIT_CHAINS.PSFREE_MODULAR, fwNum));
     toggleVisibility('bundleLapseExp',        isChainSupported(EXPLOIT_CHAINS.PSFREE_BUNDLE, fwNum));
     toggleVisibility('badHoistExp',           isChainSupported(EXPLOIT_CHAINS.BADHOIST, fwNum));
@@ -182,5 +187,6 @@ function updateExploitChainVisibility(fwVersion) {
     toggleVisibility('slopKitNetCtrlExp',     isChainSupported(EXPLOIT_CHAINS.SLOPKIT_NETCTRL, fwNum));
     toggleVisibility('relapseExp',            isChainSupported(EXPLOIT_CHAINS.RELAPSE, fwNum));
     toggleVisibility('bpfDoubleFreeExp',      isChainSupported(EXPLOIT_CHAINS.BPF_DOUBLE_FREE, fwNum));
-    toggleVisibility('slopkitAfterglowExp',    isChainSupported(EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW, fwNum));
+    toggleVisibility('slopkitAfterglowExp',   isChainSupported(EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW, fwNum));
+    toggleVisibility('wobkotLapseExp',        isChainSupported(EXPLOIT_CHAINS.WOBKOT_LAPSE, fwNum));
 }

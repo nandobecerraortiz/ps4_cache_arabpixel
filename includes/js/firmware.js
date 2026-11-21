@@ -15,6 +15,7 @@ var EXPLOIT_CHAINS = {
     RELAPSE:             7,   // src/relapse/jb.js                (12.50 – 13.52)
     BPF_DOUBLE_FREE:     8,   // src/bpf-double-free/main.js      (4.50 – 5.07)
     SLOPKIT_AFTERGLOW:   9,   // src/slopkit-afterglow/jb.js      (13.52 – 14.00)
+    WOBKOT_LAPSE:        10,  // src/wobkot/main.js               (9.00 – 12.02)
 };
 
 // Exploit chain ranges and preferences
@@ -30,7 +31,7 @@ var FIRMWARE_RANGES = [
     },
     {
         id:          EXPLOIT_CHAINS.BADHOIST,
-        label:       'BadHoist',
+        label:       'Bad Hoist',
         min:         6.70,
         max:         6.72,
         isDefault:   true,
@@ -71,7 +72,7 @@ var FIRMWARE_RANGES = [
     },
     {
         id:          EXPLOIT_CHAINS.SLOPKIT_LAPSE,
-        label:       'SlopKit Lapse',
+        label:       'Slopkit Lapse',
         min:         10.00,
         max:         12.02,
         isDefault:   true,
@@ -80,7 +81,7 @@ var FIRMWARE_RANGES = [
     },
     {
         id:          EXPLOIT_CHAINS.SLOPKIT_NETCTRL,
-        label:       'SlopKit Netctrl',
+        label:       'Slopkit Netctrl',
         min:         12.50,
         max:         13.00,
         isDefault:   false,
@@ -96,12 +97,19 @@ var FIRMWARE_RANGES = [
     },
     {
         id:          EXPLOIT_CHAINS.SLOPKIT_AFTERGLOW,
-        label:       'SlopKit Afterglow',
+        label:       'Slopkit Afterglow',
         min:         14.00,
         max:         14.02,
         isDefault:   true,
         prefMin:     14.00,
         prefMax:     14.02
+    },
+    {
+        id:          EXPLOIT_CHAINS.WOBKOT_LAPSE,
+        label:       'Wobkot Lapse',
+        min:         9.00,
+        max:         12.02,
+        isDefault:   false,
     }
 ];
 
@@ -209,6 +217,17 @@ function isChainSupported(chainId, fw) {
         if (exploit.id === chainId && fwNum >= exploit.min && fwNum <= exploit.max) return true;
     }
     return false;
+}
+
+/**
+ * Returns returns the exploit chain label of the given ID.
+ * @param {number|string} chainId
+ * @returns {string}
+ */
+function getChainLabel(chainId) {
+    if (!chainId && chainId != 0) return;
+    var chainLabel = FIRMWARE_RANGES.find(chain => chain.id == chainId);
+    return chainLabel.label;
 }
 
 // Caching
